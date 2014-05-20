@@ -80,12 +80,13 @@ class Categories extends CI_Controller {
                 $url = urls_amigables($url);
                 if($name != null)
                 $this->mod_categories->modificar($term_id, $name, $url, $descripcio);
+                redirect('Categories/llistar');
 }
 	public function borrar($ID)
 	{
                 $this->mod_categories->borrar($ID);
                 //com actualitzo la taula?
-                $this->load->view('list'); 
+                redirect('Categories/llistar');
 }
 
 	public function grocery()

@@ -68,10 +68,11 @@ LIMIT 0 , 30
 		$this->db->where('c.meta_key', '_price');
 		$this->db->where('b.meta_key','_desc');
 		$this->db->where('b.post_id = `a`.`ID`');
-		$this->db->order_by('ID', 'desc'); 
-		$query=$this->db->get()->row();
+		$this->db->order_by('ID', 'desc');
+		$this->db->limit(1);
+		$idproducte=$this->db->get()->row();
 		
-		return $query;
+		return $idproducte->ID;
 	}
 		
 	function insertProducte($fullname, $price, $categoria, $descripcio, $url){
