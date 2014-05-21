@@ -1,5 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+//<?php include('http://josepborrellweb.esy.es/wordpress/wp-admin/includes/image.php');
+
 class Productes extends CI_Controller {
 	function __construct()
     {
@@ -86,19 +88,6 @@ class Productes extends CI_Controller {
 			$this->session->set_flashdata('success_upload','Pujat Correcament');
 			$nom = $this->upload->file_name;
 			$file_name = base_url()."imatges/".$this->upload->file_name;
-			/*
-			$this->db->select('a.ID');
-			$this->db->from('wp_posts AS a');
-			$this->db->from('wp_postmeta AS b');
-			$this->db->join('wp_postmeta AS c', 'c.post_id = b.post_id');
-			$this->db->where('a.post_type = "al_product"');
-			$this->db->where('c.meta_key', '_price');
-			$this->db->where('b.meta_key','_desc');
-			$this->db->where('b.post_id = `a`.`ID`');
-			$this->db->order_by('ID', 'desc');
-			*/
-			//$query=$this->db->get()->row();
-			//$idproducte = $query;
 			$idproducte = $this->mod_productes->getUltimProducte();
 			$this->mod_productes->pujarFoto($nom, $file_name, $idproducte);
 			redirect('Productes/llistar'); 

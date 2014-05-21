@@ -1,5 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+//<?php include('http://josepborrellweb.esy.es/wordpress/wp-admin/includes/image.php');
+
 class mod_productes extends CI_Model{
 
 
@@ -46,7 +48,9 @@ LIMIT 0 , 30
 		$this->db->select('b.meta_value as descripcio');
 		$this->db->select('c.meta_value as preu');
 		$this->db->select('a.post_name as link');
+		$this->db->select('d.guid as foto');
 		$this->db->from('wp_posts AS a');
+		$this->db->join('wp_posts AS d', 'd.post_parent = a.ID','left');
 		$this->db->from('wp_postmeta AS b');
 		$this->db->join('wp_postmeta AS c', 'c.post_id = b.post_id');
 		$this->db->where('a.post_type = "al_product"');
@@ -56,6 +60,18 @@ LIMIT 0 , 30
 		$query=$this->db->get();
 		
 		return $query->result();
+		
+		// si vull q retorne nomes los q tenen imatge :
+		/*SELECT a.ID, a.post_title AS nom, b.meta_value AS descripcio, c.meta_value AS preu, a.post_name AS link, d.guid
+FROM wp_posts a 
+LEFT JOIN wp_posts d ON d.post_parent = a.ID
+, wp_postmeta b
+JOIN wp_postmeta c ON c.post_id = b.post_id
+WHERE a.post_type = "al_product"
+AND c.meta_key = "_price"
+AND b.meta_key = "_desc"
+AND b.post_id = a.ID
+* */
 	}
 	
 	function getUltimProducte(){
@@ -138,6 +154,15 @@ LIMIT 0 , 30
 		  'guid'=>$file_name,
 		  'post_type'=> 'attachment');
 		   $this->db->insert('wp_posts', $data); 
+		   
+		   $data = array(
+		  'post_id'=> $this->db->insert_id(),
+		  'meta_key'=>'_wp_attached_file',
+		  'meta_value'=> $file_name);
+		   $this->db->insert('wp_postmeta', $data); 
+		   
+		   
+		   
 		   }
 	
 	
@@ -169,7 +194,6 @@ LIMIT 0 , 30
 				$this->db->where('term_taxonomy_id', $categoria);
 				$this->db->update('wp_term_taxonomy', $count);
 		}
-
     }
     
     function modificar($ID, $fullname, $price, $categoria, $descripcio, $url)
