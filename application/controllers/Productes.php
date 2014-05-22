@@ -45,7 +45,6 @@ class Productes extends CI_Controller {
 			$url = preg_replace ($find, $repl, $url);
 			return $url;
 		}
-
 		$users ['query'] = $this->mod_categories->getCategoria();
 		$this->load->view('afegir', $users); 
                 $fullname = $this->input->post('fullname');
@@ -71,7 +70,7 @@ class Productes extends CI_Controller {
 	}
 
 	public function DoUpload() {
-		$config_file = array ( 'upload_path' => './imatges/',
+		$config_file = array ( 'upload_path' => './../wordpress/wp-content/uploads/2014/05',
 			'allowed_types' => 'png|jpg',
 			'overwrite' => false,
 			'max_size' => 0,
@@ -87,7 +86,8 @@ class Productes extends CI_Controller {
 	    else { 
 			$this->session->set_flashdata('success_upload','Pujat Correcament');
 			$nom = $this->upload->file_name;
-			$file_name = base_url()."imatges/".$this->upload->file_name;
+			$file_name = "http://josepborrellweb.esy.es/wordpress/wp-content/uploads/2014/05/".$this->upload->file_name;
+			//$file_name = base_url()."imatges/".$this->upload->file_name;
 			$idproducte = $this->mod_productes->getUltimProducte();
 			$this->mod_productes->pujarFoto($nom, $file_name, $idproducte);
 			redirect('Productes/llistar'); 

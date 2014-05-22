@@ -155,11 +155,18 @@ AND b.post_id = a.ID
 		  'post_type'=> 'attachment');
 		   $this->db->insert('wp_posts', $data); 
 		   
+		   $idguarda = $this->db->insert_id();
 		   $data = array(
-		  'post_id'=> $this->db->insert_id(),
+		  'post_id'=> $idguarda,
 		  'meta_key'=>'_wp_attached_file',
 		  'meta_value'=> $file_name);
 		   $this->db->insert('wp_postmeta', $data); 
+		   
+		   $data = array(
+		  'post_id'=> $idproducte,
+		  'meta_key'=>'_thumbnail_id',
+		  'meta_value'=> $idguarda);
+		   $this->db->insert('wp_postmeta', $data);
 		   
 		   
 		   
@@ -250,7 +257,3 @@ AND b.post_id = a.ID
 		
 	}
 }
-
-?>
-    
-    
