@@ -14,21 +14,35 @@ class Productes extends CI_Controller {
 // l'objecte persona 
 	public function llistar()
 	{	
+		if($this->session->userdata('logged_in')){
+
 		$users ['query'] = $this->mod_productes->getProducte();
 		$this->load->view('llistaproductes', $users);
+		
+		}
+		else{
+     //If no session, redirect to login page
+     redirect('login', 'refresh');
+		}
+
 		
 	}
 	
 	public function listcategories()
-	{	
+	{
+		if($this->session->userdata('logged_in')){	
 		$users ['query'] = $this->mod_categories->getCategoria();
-		$this->load->view('list', $users);
+		$this->load->view('list', $users);}
+		else{
+     //If no session, redirect to login page
+     redirect('login', 'refresh');}
 	}
 	
 	
 
 	public function crear()
 	{
+		if($this->session->userdata('logged_in')){	
 		function urls_amigables($url) {
 			// Tranformamos todo a minusculas
 			$url = strtolower($url);
@@ -62,14 +76,23 @@ class Productes extends CI_Controller {
                 
               
 	}
+	else{
+     //If no session, redirect to login page
+     redirect('login', 'refresh');}
+ }
 
 	public function upload() {
+		if($this->session->userdata('logged_in')){
 			$data['content'] = 'penjafoto';
 			$this->load->vars($data);
-			$this->load->view('penjafoto');
+			$this->load->view('penjafoto');}
+			else{
+     //If no session, redirect to login page
+     redirect('login', 'refresh');}
 	}
 
 	public function DoUpload() {
+		if($this->session->userdata('logged_in')){
 		$config_file = array ( 'upload_path' => './../wordpress/wp-content/uploads/2014/05',
 			'allowed_types' => 'png|jpg',
 			'overwrite' => false,
@@ -93,10 +116,15 @@ class Productes extends CI_Controller {
 			redirect('Productes/llistar'); 
 		}
 	}
+	else{
+     //If no session, redirect to login page
+     redirect('login', 'refresh');}
+	}
 
 			
 	public function modificar($ID)
 	{
+		if($this->session->userdata('logged_in')){
 		function urls_amigables($url) {
 			// Tranformamos todo a minusculas
 			$url = strtolower($url);
@@ -127,17 +155,19 @@ class Productes extends CI_Controller {
 						redirect('Productes/llistar');
 				}
 	}
+	else{
+     //If no session, redirect to login page
+     redirect('login', 'refresh');}
+}
 	public function borrar($ID)
 	{
+		if($this->session->userdata('logged_in')){
                 $this->mod_productes->borrar($ID);
                 //com actualitzo la taula?
-                redirect('Productes/llistar');
-	}
-
-
-	public function grocery()
-	{
-		$this->load->view('example');
+                redirect('Productes/llistar');}
+                else{
+     //If no session, redirect to login page
+     redirect('login', 'refresh');}
 	}
 
 function json()
@@ -145,10 +175,6 @@ function json()
         $data['json'] = $this->mod_productes->getProductejson();
         if (!$data['json']) show_404();
         $this->load->view('json_view', $data);
-    }
-    function test()
-    {
-       $this->load->view('provaxd');
     }
     
 }

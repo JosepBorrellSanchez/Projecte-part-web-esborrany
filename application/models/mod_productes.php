@@ -72,6 +72,34 @@ AND c.meta_key = "_price"
 AND b.meta_key = "_desc"
 AND b.post_id = a.ID
 * */
+
+
+
+// ATENCIO PER A FER EL FILTRO PER CATEGORIES EL JSON ES :
+/*
+SELECT a.ID, a.post_title AS nom, b.meta_value AS descripcio, c.meta_value AS preu, a.post_name AS link, d.guid
+FROM wp_posts a 
+LEFT JOIN wp_posts d ON d.post_parent = a.ID
+, wp_postmeta b 
+JOIN wp_postmeta c ON c.post_id = b.post_id,
+wp_posts f JOIN wp_term_relationships e ON f.ID = e.object_id
+WHERE a.post_type = "al_product"
+AND f.ID = a.ID
+AND e.term_taxonomy_id = 5
+AND c.meta_key = "_price"
+AND b.meta_key = "_desc"
+AND b.post_id = a.ID ORDER BY `a`.`ID` ASC
+*/
+/*SELECT a.ID, a.post_title AS nom, b.meta_value AS descripcio, c.meta_value AS preu, a.post_name AS link, d.guid
+FROM wp_posts a
+LEFT JOIN wp_posts d ON d.post_parent = a.ID, wp_postmeta b
+JOIN wp_postmeta c ON c.post_id = b.post_id
+WHERE a.post_type =  "al_product"
+AND c.meta_key =  "_price"
+AND b.meta_key =  "_desc"
+AND b.post_id = a.ID
+ORDER BY  `a`.`ID` ASC 
+LIMIT 0 , 30*/
 	}
 	
 	function getUltimProducte(){
@@ -240,7 +268,7 @@ AND b.post_id = a.ID
 		$query = $this->db->get();
 		
 		//fer un array en los ID de categoria per a despues recorrel i actualitzar los counts..
-		foreach ($query->row() as $categoria) {
+		foreach ($query->result()->term_taxonomy_id as $categoria) {
 			$this->db->select('count(*)');
 			$this->db->from('wp_term_relationships');
 			$this->db->where('term_taxonomy_id',$categoria);

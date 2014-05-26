@@ -10,7 +10,7 @@
 <fieldset>
 
 <!-- Form Name -->
-<legend><h1>Inserta un nou producte</h1></legend>
+<legend><h1>Modificar el producte</h1></legend>
 
 <!-- Text input-->
 <div class="control-group">

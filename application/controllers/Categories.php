@@ -11,13 +11,17 @@ class Categories extends CI_Controller {
 // l'objecte persona 
 	public function llistar()
 	{	
-			
+			if($this->session->userdata('logged_in')){
 		$users ['query'] = $this->mod_categories->getCategoria();
-		$this->load->view('list', $users);
+		$this->load->view('list', $users);}
+		else{
+     //If no session, redirect to login page
+     redirect('login', 'refresh');}
 	}
 
 	public function crear()
 	{
+		if($this->session->userdata('logged_in')){
 		function urls_amigables($url) {
 			// Tranformamos todo a minusculas
 			$url = strtolower($url);
@@ -33,6 +37,7 @@ class Categories extends CI_Controller {
 			$repl = array('', '-', '');
 			$url = preg_replace ($find, $repl, $url);
 			return $url;
+			
 }
 		
 		
@@ -43,7 +48,10 @@ class Categories extends CI_Controller {
                 $descripcio = $this->input->post('descripcio');
                 $url = urls_amigables($url);
                 if($name != null)
-                $this->mod_categories->insertCategoria($name, $url, $descripcio);
+                $this->mod_categories->insertCategoria($name, $url, $descripcio);}
+                else{
+     //If no session, redirect to login page
+     redirect('login', 'refresh');}
 }
 
 	function json()
@@ -78,20 +86,21 @@ class Categories extends CI_Controller {
                 //$slug = $this->input->post('slug');
                 $descripcio = $this->input->post('descripcio');
                 $url = urls_amigables($url);
-                if($name != null)
+                if($name != null){
                 $this->mod_categories->modificar($term_id, $name, $url, $descripcio);
-                redirect('Categories/llistar');
+                redirect('Categories/llistar');}
 }
 	public function borrar($ID)
 	{
+		if($this->session->userdata('logged_in')){
                 $this->mod_categories->borrar($ID);
                 //com actualitzo la taula?
-                redirect('Categories/llistar');
-}
+                redirect('Categories/llistar');}
+                else{
+     //If no session, redirect to login page
+     redirect('login', 'refresh');}
 
-	public function grocery()
-	{
-		$this->load->view('example');
+
 }
 }
 

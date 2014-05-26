@@ -11,7 +11,7 @@
 
 <!-- Form Name -->
 <legend><h1>Modificar una categoria de productes</h1></legend>
-<h3>Incida el nom nou i descripcio</h3>
+<h3>Indica el nom nou i descripcio</h3>
 
 <!-- Text input-->
 <div class="control-group">
