@@ -102,6 +102,31 @@ ORDER BY  `a`.`ID` ASC
 LIMIT 0 , 30*/
 	}
 	
+	function getProductejsoncat($categoria){		
+		$this->db->select('a.ID');
+		$this->db->select('a.post_title as nom');
+		$this->db->select('b.meta_value as descripcio');
+		$this->db->select('c.meta_value as preu');
+		$this->db->select('a.post_name as link');
+		$this->db->select('d.guid as foto');
+		$this->db->from('wp_posts AS a');
+		$this->db->join('wp_posts AS d', 'd.post_parent = a.ID','left');
+		$this->db->from('wp_postmeta AS b');
+		$this->db->join('wp_postmeta AS c', 'c.post_id = b.post_id');
+		$this->db->from('wp_posts AS f');
+		$this->db->join('wp_term_relationships AS e','f.ID = e.object_id');
+		$this->db->where('a.post_type = "al_product"');
+		$this->db->where('c.meta_key', '_price');
+		$this->db->where('b.meta_key','_desc');
+		$this->db->where('b.post_id = `a`.`ID`');
+		$this->db->where('f.ID = `a`.`ID`');
+		$this->db->where('e.term_taxonomy_id', $categoria);
+
+		$query=$this->db->get();
+		
+		return $query->result();
+	}
+	
 	function getUltimProducte(){
 		
 		$this->db->select('a.ID');

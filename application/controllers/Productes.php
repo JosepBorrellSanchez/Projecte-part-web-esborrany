@@ -177,6 +177,14 @@ function json()
         $this->load->view('json_view', $data);
     }
     
+function jsoncat($categoria)
+    {
+		//$categoria = 2;
+        $data['json'] = $this->mod_productes->getProductejsoncat($categoria);
+        if (!$data['json']) show_404();
+        $this->load->view('json_view', $data);
+    }
+    
 }
 
 /* End of file welcome.php */

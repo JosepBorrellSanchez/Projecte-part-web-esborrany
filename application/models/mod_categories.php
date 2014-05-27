@@ -59,9 +59,10 @@ LIMIT 0 , 30
 	
 	function getCategoriesjson(){
 		$this->db->select('A.term_id');
-		$this->db->select('name');
-		$this->db->select('slug');
-		$this->db->select('description');
+		$this->db->select('A.name');
+		$this->db->select('A.slug');
+		$this->db->select('B.description');
+		$this->db->select('B.term_taxonomy_id');
 		$this->db->from('wp_terms AS A');
 		$this->db->join('wp_term_taxonomy AS B', 'A.term_id = B.term_id');
 		$this->db->where('B.taxonomy = "al_product-cat"');
